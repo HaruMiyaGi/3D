@@ -160,6 +160,7 @@
     <ClInclude Include="src\Console.h" />
     <ClInclude Include="src\Clock.h" />
     <ClInclude Include="src\Keyboard.h" />
+    <ClInclude Include="src\Mouse.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

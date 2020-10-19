@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <optional>
 #include "Keyboard.h"
+#include "Mouse.h"
 
 class Window
 {
@@ -115,11 +116,48 @@ private:
 		{
 			keyboard.OnKeyRelease(wParam);
 		} break;
+		/// =====
+		
+		/// Mouse
+		case WM_MOUSEMOVE:
+		{
+			const POINTS point = MAKEPOINTS(lParam);
+
+			if (point.x >= 0 && point.x < width && point.y >= 0 && point.y < height)
+			{
+				mouse.OnMouseMove(point.x, point.y);
+				if (!mouse.IsInWindow())
+					mouse.OnMouseEnter();
+			}
+			else
+			{
+				mouse.OnMouseLeave();
+			}
+
+		} break;
+		case WM_LBUTTONDOWN:
+		{
+			mouse.OnLeftPress();
+		} break;
+		case WM_LBUTTONUP:
+		{
+			mouse.OnLeftRelease();
+		} break;
+		case WM_RBUTTONDOWN:
+		{
+			mouse.OnRightPress();
+		} break;
+		case WM_RBUTTONUP:
+		{
+			mouse.OnRightRelease();
+		} break;
+		/// =====
+		
 		case WM_KILLFOCUS:
 		{
 			keyboard.ClearStates();
+			mouse.ClearStates();
 		} break;
-		/// =====
 
 		default: return DefWindowProc(hWnd, msg, wParam, lParam);
 		}
@@ -131,4 +169,5 @@ private:
 	int height;
 public:
 	Keyboard keyboard;
+	Mouse mouse;
 };
