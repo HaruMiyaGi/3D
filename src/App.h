@@ -20,6 +20,14 @@ public:
 	}
 private:
 	void MainLoop();
+	void Gui()
+	{
+		if (ImGui::Begin("[F1]", 0, ImGuiWindowFlags_NoResize))
+		{
+			ImGui::Text("Hey :3");
+		}
+		ImGui::End();
+	}
 private:
 	Clock clock;
 	Console console;

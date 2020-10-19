@@ -47,7 +47,6 @@ public:
 	{
 		if (show)
 		{
-			Draw();
 			ImGui::Render();
 			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 		}
@@ -59,15 +58,11 @@ public:
 		else
 			show = true;
 	}
-private:
-	void Draw()
+	bool IsEnabled()
 	{
-		if (ImGui::Begin("[F1]", 0, ImGuiWindowFlags_NoResize))
-		{
-			ImGui::Text("Hey :3");
-		}
-		ImGui::End();
+		return show;
 	}
+private:
 	void Style()
 	{
 		ImGuiStyle* style = &ImGui::GetStyle();

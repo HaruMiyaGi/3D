@@ -7,6 +7,8 @@
 #include "Gui.h"
 //#include <DirectXMath.h>
 
+#include "Camera.h"
+
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
@@ -60,6 +62,7 @@ public:
 	Graphics& operator = (const Graphics&) = delete;
 public:
 	Gui gui;
+	Camera camera;
 	void StartFrame(float r, float g, float b)
 	{
 		gui.StartFrame();
@@ -71,8 +74,6 @@ public:
 		gui.EndFrame();
 		pSwapChain->Present(1, 0);
 	}
-
-
 	void Shape()
 	{
 		// [x] Data for Vertex Buffer
@@ -234,8 +235,6 @@ public:
 		/// Draw Call
 		pContext->DrawIndexed((UINT)std::size(indicies), 0, 0);
 	}
-
-
 private:
 	ComPtr<ID3D11Device> pDevice = nullptr;
 	ComPtr<IDXGISwapChain> pSwapChain = nullptr;
