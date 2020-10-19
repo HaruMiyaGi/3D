@@ -159,6 +159,7 @@
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Console.h" />
     <ClInclude Include="src\Clock.h" />
+    <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Keyboard.h" />
     <ClInclude Include="src\Mouse.h" />
   </ItemGroup>

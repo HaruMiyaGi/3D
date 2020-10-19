@@ -4,6 +4,9 @@ void App::MainLoop()
 {
 	console.SetTitle(clock.Peek());
 
+	wnd.gfx().StartFrame(1.0f, 0.0f, 0.0f);
+	wnd.gfx().EndFrame();
+
 	if (wnd.keyboard.IsPressed({ VK_CONTROL, 'F' }))
 	{
 		std::cout << "[Ctrl + F]";
@@ -21,5 +24,4 @@ void App::MainLoop()
 		std::cout << "Right Click!\n";
 		Sleep(100);
 	}
-
 }

@@ -2,6 +2,7 @@
 #include <optional>
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Graphics.h"
 
 class Window
 {
@@ -51,6 +52,8 @@ public:
 			NULL, NULL, WndClass::GetInstance(), this
 		);
 
+		pGfx = std::make_unique<Graphics>(hwnd, width, height);
+
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
 	}
 	~Window()
@@ -67,6 +70,10 @@ public:
 			DispatchMessage(&msg);
 		}
 		return {};
+	}
+	Graphics& gfx()
+	{
+		return *pGfx;
 	}
 public:
 	int GetWidth()
@@ -168,6 +175,7 @@ private:
 	int width;
 	int height;
 public:
+	std::unique_ptr<Graphics> pGfx;
 	Keyboard keyboard;
 	Mouse mouse;
 };
