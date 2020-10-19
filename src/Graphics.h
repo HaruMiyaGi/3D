@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include <memory>
+#include "Gui.h"
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -38,6 +39,7 @@ public:
 		ComPtr<ID3D11Resource> pBackBuffer = nullptr;
 		pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
+		pContext->OMSetRenderTargets(1, pTarget.GetAddressOf(), nullptr); // try to add it to constructor
 
 		D3D11_VIEWPORT vp = { 0 };
 		vp.Width = (FLOAT)width;
@@ -47,24 +49,28 @@ public:
 		vp.MinDepth = 0;
 		vp.MaxDepth = 1;
 		pContext->RSSetViewports(1, &vp);
+
+		gui.Init(hwnd, pDevice.Get(), pContext.Get());
 	}
 	~Graphics() = default;
 	Graphics(const Graphics&) = delete;
 	Graphics& operator = (const Graphics&) = delete;
 public:
+	Gui gui;
 	void StartFrame(float r, float g, float b)
 	{
+		gui.StartFrame();
 		const float color[] = { r, g, b, 1.0f };
 		pContext->ClearRenderTargetView(pTarget.Get(), color);
 	}
 	void EndFrame()
 	{
+		gui.EndFrame();
 		pSwapChain->Present(1, 0);
 	}
 private:
 	ComPtr<ID3D11Device> pDevice = nullptr;
 	ComPtr<IDXGISwapChain> pSwapChain = nullptr;
 	ComPtr<ID3D11DeviceContext> pContext = nullptr;
-
 	ComPtr<ID3D11RenderTargetView> pTarget = nullptr;
 };

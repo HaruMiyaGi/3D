@@ -52,9 +52,9 @@ public:
 			NULL, NULL, WndClass::GetInstance(), this
 		);
 
-		pGfx = std::make_unique<Graphics>(hwnd, width, height);
-
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
+		
+		pGfx = std::make_unique<Graphics>(hwnd, width, height);
 	}
 	~Window()
 	{
@@ -105,6 +105,9 @@ private:
 
 	LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
+		if (pGfx->gui.WndProc(hWnd, msg, wParam, lParam))
+			return true;
+
 		switch (msg)
 		{
 		case WM_CLOSE:
