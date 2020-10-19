@@ -15,6 +15,7 @@ public:
 		for (auto key : keys)
 			if (!IsDown(key))
 				return false;
+		Sleep(100);
 		return true;
 	}
 private:
