@@ -1,30 +1,12 @@
-#include <Windows.h>
+#include "Window.h"
 
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+Window::WndClass Window::WndClass::wnd_class;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = WndProc;
-	wc.hInstance = hInstance;
-	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.lpszClassName = "class";
-	RegisterClassEx(&wc);
 
-	RECT rect = { 0, 0, 640, 480 };
-	AdjustWindowRectEx(&rect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, FALSE, 0);
-
-	HWND hwnd = CreateWindowEx(
-		NULL, "class", "Window Title",
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, rect.right - rect.left, rect.bottom - rect.top,
-		NULL, NULL, hInstance, NULL
-	);
-
-	ShowWindow(hwnd, nCmdShow);
-
+	Window wnd(640, 480, "uwu");
+	
 	MSG msg;
 	while (TRUE)
 	{
@@ -38,18 +20,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	return 0;
-}
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message)
-	{
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-	} break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return DefWindowProc(hWnd, message, wParam, lParam); // Is this needed here?
 }
