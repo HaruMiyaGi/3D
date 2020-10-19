@@ -7,6 +7,7 @@ void App::MainLoop()
 	if (wnd.keyboard.IsPressed({ VK_F1 }))
 		wnd.gfx().gui.Toggle();
 
-	wnd.gfx().StartFrame(1.0f, 0.0f, 0.0f);
+	wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
+	wnd.gfx().Shape();
 	wnd.gfx().EndFrame();
 }

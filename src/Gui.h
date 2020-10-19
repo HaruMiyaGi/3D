@@ -52,7 +52,6 @@ public:
 			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 		}
 	}
-
 	void Toggle()
 	{
 		if (show)
@@ -60,7 +59,6 @@ public:
 		else
 			show = true;
 	}
-
 private:
 	void Draw()
 	{
@@ -105,7 +103,7 @@ private:
 		style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.117f, 0.101f, 0.227f, 1.0f);
 		style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.388f, 0.301f, 0.866f, 1.0f);
 
-		style->Colors[ImGuiCol_TitleBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		style->Colors[ImGuiCol_TitleBg] = ImVec4(0.388f, 0.301f, 0.866f, 1.0f);
 		style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.388f, 0.301f, 0.866f, 1.0f);
 		style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 
@@ -151,5 +149,5 @@ private:
 		style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 private:
-	bool show = true;
+	bool show = false;
 };
