@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Console.h"
+#include "Clock.h"
 
 class App
 {
@@ -20,6 +21,7 @@ public:
 private:
 	void MainLoop();
 private:
+	Clock clock;
 	Console console;
 	Window wnd;
 };
