@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <optional>
 
 class Window
 {
@@ -54,11 +55,22 @@ public:
 	{
 		DestroyWindow(hwnd);
 	}
+	static std::optional<int> HandleMsg()
+	{
+		MSG msg;
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT) return msg.wParam;
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		return {};
+	}
 public:
 	int GetWidth()
 	{
 		return width;
-	}
+	}	
 	int GetHeight()
 	{
 		return height;
