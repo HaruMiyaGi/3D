@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <optional>
+#include "Keyboard.h"
 
 class Window
 {
@@ -102,13 +103,32 @@ private:
 		{
 			PostQuitMessage(69);
 		} break;
+
+		/// Keyboard
+		case WM_SYSKEYDOWN:
+		case WM_KEYDOWN:
+		{
+			keyboard.OnKeyPress(wParam);
+		} break;
+		case WM_SYSKEYUP:
+		case WM_KEYUP:
+		{
+			keyboard.OnKeyRelease(wParam);
+		} break;
+		case WM_KILLFOCUS:
+		{
+			keyboard.ClearStates();
+		} break;
+		/// =====
+
 		default: return DefWindowProc(hWnd, msg, wParam, lParam);
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
-
 private:
 	HWND hwnd;
 	int width;
 	int height;
+public:
+	Keyboard keyboard;
 };
