@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include "Console.h"
 
 class App
 {
@@ -19,5 +20,6 @@ public:
 private:
 	void MainLoop();
 private:
+	Console console;
 	Window wnd;
 };

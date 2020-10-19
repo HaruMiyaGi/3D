@@ -1,6 +1,9 @@
 #include "App.h"
 
+int counter = 0;
+
 void App::MainLoop()
 {
-	bool breakpoint = true;
+	std::cout << counter << std::endl;
+	counter++;
 }
