@@ -5,7 +5,9 @@
 #include <wrl.h>
 #include <memory>
 #include "Gui.h"
-//#include <DirectXMath.h>
+
+#include <DirectXMath.h>
+//#include <cmath>
 
 #include "Camera.h"
 
@@ -91,7 +93,7 @@ public:
 
 		/// Data for Vertex Buffer
 		struct Vertex {
-			float x, y;
+			float x, y, z;
 		};
 
 		//const Vertex vertices[] = {
@@ -100,11 +102,15 @@ public:
 		//	{ -0.5f, -0.5f}
 		//}; // Triangle
 		const Vertex vertices[] = {
-			{ -0.5f,  0.5f},
-			{  0.5f,  0.5f},
-			{  0.5f, -0.5f},
-			{ -0.5f, -0.5f}
-		}; // Rectangle
+			{ -1.0f,  1.0f,  1.0 },
+			{  1.0f,  1.0f,  1.0 },
+			{  1.0f, -1.0f,  1.0 },
+			{ -1.0f, -1.0f,  1.0 },
+			{ -1.0f,  1.0f, -1.0 },
+			{  1.0f,  1.0f, -1.0 },
+			{  1.0f, -1.0f, -1.0 },
+			{ -1.0f, -1.0f, -1.0 }
+		}; // Cube
 
 		/// Vertex Buffer
 		ComPtr<ID3D11Buffer> pVertexBuffer = nullptr;
@@ -128,9 +134,13 @@ public:
 		//	0, 1, 2
 		//}; // Triangle
 		const unsigned short indicies[] = {
-			0, 1, 2,
-			0, 2, 3
-		}; // Rectangle
+			4, 5, 6, 4, 6, 7,
+			0, 4, 7, 0, 7, 3,
+			5, 1, 2, 5, 2, 6,
+			3, 2, 1, 3, 1, 0,
+			0, 1, 5, 0, 5, 4,
+			7, 6, 2, 7, 2, 3
+		}; // Cube
 
 		/// Index Buffer
 		ComPtr<ID3D11Buffer> pIndexBuffer = nullptr;
@@ -146,18 +156,24 @@ public:
 		pDevice->CreateBuffer(&ibd, &isd, &pIndexBuffer);
 		pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 
-
 		/// Data for Vertex Constant Buffer
 		struct ConstantBuffer
 		{
-			float element[4][4];
+			//float element[4][4];
+			DirectX::XMMATRIX transform;
 		};
 		const ConstantBuffer cb = {
 			{
-				1.0f, 0.0f, 0.0f, 0.0f,
+				DirectX::XMMatrixTranspose(
+					DirectX::XMMatrixRotationX(camera.GetX()) *
+					DirectX::XMMatrixRotationY(camera.GetY()) *
+					DirectX::XMMatrixRotationZ(camera.GetZ()) *
+					DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f) * DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 10.0f)
+				)
+				/*1.0f, 0.0f, 0.0f, 0.0f,
 				0.0f, 1.0f, 0.0f, 0.0f,
 				0.0f, 0.0f, 1.0f, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f
+				0.0f, 0.0f, 0.0f, 1.0f*/
 			}
 		};
 
@@ -180,10 +196,20 @@ public:
 		/// Data for Pixel Constant Buffer
 		struct ConstantBuffer2
 		{
-			float rgba[4];
+			struct
+			{
+				float rgba[4];
+			} face_color[6];
 		};
 		const ConstantBuffer2 cb2 = {
-			{ 0.0f, 0.0f, 1.0f, 1.0f }
+			{
+				{ 1.0f, 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 1.0f, 1.0f },
+				{ 0.0f, 1.0f, 0.0f, 1.0f },
+				{ 1.0f, 1.0f, 1.0f, 1.0f },
+				{ 0.0f, 0.0f, 1.0f, 1.0f },
+				{ 0.0f, 0.0f, 0.0f, 1.0f }
+			}
 		};
 
 		/// Pixel Constant Buffer
@@ -221,8 +247,8 @@ public:
 		/// Input Layout
 		ComPtr<ID3D11InputLayout> pInputLayout = nullptr;
 		const D3D11_INPUT_ELEMENT_DESC ied[]{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			//{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			//{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }			
 		};
 		pDevice->CreateInputLayout(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout);
 		pContext->IASetInputLayout(pInputLayout.Get());

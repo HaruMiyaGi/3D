@@ -22,7 +22,7 @@ public:
 	}
 	void SetTitle(float time)
 	{
-		char title[16];
+		char title[32];
 		sprintf_s(title, "Console [%.1fs]", time);
 		SetConsoleTitle(title);
 	}

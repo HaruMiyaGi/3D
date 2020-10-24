@@ -14,12 +14,12 @@ public:
 		if (ImGui::Begin("Camera"))
 		{
 			ImGui::Text("Position");
-			ImGui::SliderFloat("X", &x, -80.0f, 80.0f, "%.1f");
-			ImGui::SliderFloat("Y", &y, -80.0f, 80.0f, "%.1f");
-			ImGui::SliderFloat("Z", &z, -80.0f, 80.0f, "%.1f");
+			ImGui::SliderFloat("X", &x, -4.0f, 4.0f, "%.1f");
+			ImGui::SliderFloat("Y", &y, -4.0f, 4.0f, "%.1f");
+			ImGui::SliderFloat("Z", &z, -4.0f, 4.0f, "%.1f");
 
 			ImGui::Text("Orientation");
-			ImGui::SliderAngle("Pitch", &pitch, -90.0f * 0.995f, 90.0f * 0.995f);
+			ImGui::SliderAngle("Pitch", &pitch, -90.0f, 90.0f);
 			ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);
 
 			if (ImGui::Button("Reset"))
@@ -37,6 +37,10 @@ public:
 		pitch = 0.0f;
 		yaw = 0.0f;
 	}
+
+	float GetX() { return x; }
+	float GetY() { return y; }
+	float GetZ() { return z; }
 
 private:
 	float x, y, z;
