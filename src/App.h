@@ -3,6 +3,9 @@
 #include "Console.h"
 #include "Clock.h"
 
+#include "Shape.h"
+#include "Shape2.h"
+
 class App
 {
 public:
@@ -32,4 +35,8 @@ private:
 	Clock clock;
 	Console console;
 	Window wnd;
+
+	Shape shape = Shape(wnd.gfx());
+	Shape2 shape2 = Shape2(wnd.gfx());
+	Shape2 shape3 = Shape2(wnd.gfx());
 };

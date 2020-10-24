@@ -8,11 +8,16 @@ void App::MainLoop()
 		wnd.gfx().gui.Toggle();
 
 
-
 	wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
 
-	wnd.gfx().Shape(true);
-	wnd.gfx().Shape(false);
+	shape.Update(clock.Peek(), false);
+	shape.Draw(wnd.gfx());
+
+	shape2.Update(clock.Peek(), true);
+	shape2.Draw(wnd.gfx());
+
+	shape3.Update(clock.Peek(), true);
+	shape3.Draw(wnd.gfx());
 
 	if (wnd.gfx().gui.IsEnabled())
 	{

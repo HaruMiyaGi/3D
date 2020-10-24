@@ -18,6 +18,7 @@ using namespace Microsoft::WRL;
 
 class Graphics
 {
+	friend class Bindable;
 public:
 	Graphics(HWND hwnd, int width, int height)
 	{
@@ -112,15 +113,15 @@ public:
 	void Shape(bool boolean)
 	{
 		// [x] Data for Vertex Buffer
-		// [x] Vertex Buffer
+		/// [x] Vertex Buffer
 		// [x] Data for Index Buffer
-		// [x] Index Buffer
+		/// [x] Index Buffer
 		// [x] Data for Constant Buffer/s
-		// [x] Constant Buffer/s
-		// [x] Pixel Shader
-		// [x] Vertex Shader
-		// [x] Input Layout
-		// [x] Topology
+		/// [x] Constant Buffer/s
+		/// [x] Pixel Shader
+		/// [x] Vertex Shader
+		/// [x] Input Layout
+		/// [x] Topology
 		// [x] Draw Call
 
 
@@ -306,6 +307,10 @@ public:
 
 		/// Draw Call
 		pContext->DrawIndexed((UINT)std::size(indicies), 0, 0);
+	}
+	void DrawIndexed(UINT count)
+	{
+		pContext->DrawIndexed(count, 0, 0);
 	}
 private:
 	ComPtr<ID3D11Device> pDevice = nullptr;
