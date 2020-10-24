@@ -66,6 +66,7 @@ private:
 	void Style()
 	{
 		ImGuiStyle* style = &ImGui::GetStyle();
+		//style->WindowMinSize = ImVec2(280.f, 300.f);
 
 		style->Alpha = 0.9f;
 		style->WindowPadding = ImVec2(15, 15);
@@ -83,7 +84,6 @@ private:
 		style->ScrollbarSize = 6.0f;
 		style->ScrollbarRounding = 0.0f;
 
-		style->WindowMinSize = ImVec2(280.f, 300.f);
 
 
 		style->Colors[ImGuiCol_Text] = ImVec4(0.756f, 0.749f, 0.866f, 1.0f);

@@ -105,6 +105,21 @@ public:
 		return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, 0.0f) *
 			DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f);
 	}
+
+
+	void Gui()
+	{
+		auto mm = GetTransformXM();
+		if (ImGui::Begin("Model Matrix", 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("[%.1f] [%.1f] [%.1f] [%.1f]", mm.r->m128_f32[0], mm.r->m128_f32[1], mm.r->m128_f32[2], mm.r->m128_f32[3]);
+			ImGui::Text("[%.1f] [%.1f] [%.1f] [%.1f]", mm.r->m128_f32[4], mm.r->m128_f32[5], mm.r->m128_f32[6], mm.r->m128_f32[7]);
+			ImGui::Text("[%.1f] [%.1f] [%.1f] [%.1f]", mm.r->m128_f32[8], mm.r->m128_f32[9], mm.r->m128_f32[10], mm.r->m128_f32[11]);
+			ImGui::Text("[%.1f] [%.1f] [%.1f] [%.1f]", mm.r->m128_f32[12], mm.r->m128_f32[13], mm.r->m128_f32[14], mm.r->m128_f32[15]);
+		}
+		ImGui::End();
+	}
+
 private:
 	float roll = 0.0f;
 	float pitch = 0.0f;

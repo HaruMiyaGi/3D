@@ -23,6 +23,7 @@ void App::MainLoop()
 	{
 		wnd.gfx().camera.Gui();
 		Gui();
+		shape.Gui();
 	}
 
 	wnd.gfx().EndFrame();

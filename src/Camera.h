@@ -11,7 +11,7 @@ public:
 
 	void Gui()
 	{
-		if (ImGui::Begin("Camera"))
+		if (ImGui::Begin("Camera", 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::Text("Position");
 			ImGui::SliderFloat("X", &x, -4.0f, 4.0f, "%.1f");
