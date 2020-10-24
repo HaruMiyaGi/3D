@@ -11,7 +11,8 @@ void App::MainLoop()
 
 	wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
 
-	wnd.gfx().Shape();
+	wnd.gfx().Shape(true);
+	wnd.gfx().Shape(false);
 
 	if (wnd.gfx().gui.IsEnabled())
 	{

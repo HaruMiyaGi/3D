@@ -43,10 +43,42 @@ public:
 			&scd, &pSwapChain, &pDevice, nullptr, &pContext
 		);
 
+		// Backbuffer
 		ComPtr<ID3D11Resource> pBackBuffer = nullptr;
 		pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
-		pContext->OMSetRenderTargets(1, pTarget.GetAddressOf(), nullptr); // try to add it to constructor
+
+		// Depth
+		D3D11_DEPTH_STENCIL_DESC dsd = { 0 };
+		dsd.DepthEnable = TRUE;
+		dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		dsd.DepthFunc = D3D11_COMPARISON_LESS;
+		ComPtr<ID3D11DepthStencilState> pDSState = nullptr;
+		pDevice->CreateDepthStencilState(&dsd, &pDSState);
+		pContext->OMSetDepthStencilState(pDSState.Get(), 1);
+
+		// Depth stensil texture
+		ComPtr<ID3D11Texture2D> pDepthStencil = nullptr;
+		D3D11_TEXTURE2D_DESC descDepth = { 0 };
+		descDepth.Width = width;
+		descDepth.Height = height;
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
+		descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+		descDepth.SampleDesc.Count = 1;
+		descDepth.SampleDesc.Quality = 0;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+		descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+		pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV);
+
+		// Bind for back buffer and depth buffer
+		pContext->OMSetRenderTargets(1, pTarget.GetAddressOf(), pDSV.Get());
 
 		D3D11_VIEWPORT vp = { 0 };
 		vp.Width = (FLOAT)width;
@@ -70,13 +102,14 @@ public:
 		gui.StartFrame();
 		const float color[] = { r, g, b, 1.0f };
 		pContext->ClearRenderTargetView(pTarget.Get(), color);
+		pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1, 0);
 	}
 	void EndFrame()
 	{
 		gui.EndFrame();
 		pSwapChain->Present(1, 0);
 	}
-	void Shape()
+	void Shape(bool boolean)
 	{
 		// [x] Data for Vertex Buffer
 		// [x] Vertex Buffer
@@ -162,13 +195,26 @@ public:
 			//float element[4][4];
 			DirectX::XMMATRIX transform;
 		};
+
+		float distance = camera.GetDistance() + 4.0f;
+		float x = camera.GetX(), y = camera.GetY(), z = camera.GetZ();
+		if (boolean)
+		{
+			distance = 4.0f;
+			x = 1.0f;
+			y = 2.0f;
+			z = 0.0f;
+		}
+
+
 		const ConstantBuffer cb = {
 			{
 				DirectX::XMMatrixTranspose(
-					DirectX::XMMatrixRotationX(camera.GetX()) *
-					DirectX::XMMatrixRotationY(camera.GetY()) *
-					DirectX::XMMatrixRotationZ(camera.GetZ()) *
-					DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f) * DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 10.0f)
+					DirectX::XMMatrixRotationX(x) *
+					DirectX::XMMatrixRotationY(y) *
+					DirectX::XMMatrixRotationZ(z) *
+					DirectX::XMMatrixTranslation(0.0f, 0.0f, distance) *
+					DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 100.0f)
 				)
 				/*1.0f, 0.0f, 0.0f, 0.0f,
 				0.0f, 1.0f, 0.0f, 0.0f,
@@ -266,4 +312,5 @@ private:
 	ComPtr<IDXGISwapChain> pSwapChain = nullptr;
 	ComPtr<ID3D11DeviceContext> pContext = nullptr;
 	ComPtr<ID3D11RenderTargetView> pTarget = nullptr;
+	ComPtr<ID3D11DepthStencilView> pDSV = nullptr;
 };
