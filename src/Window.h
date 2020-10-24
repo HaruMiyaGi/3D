@@ -119,7 +119,8 @@ private:
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
-			keyboard.OnKeyPress(wParam);
+			if (!(lParam & 0x40000000) || keyboard.IsAutoRepeatEnabled())
+				keyboard.OnKeyPress(wParam);
 		} break;
 		case WM_SYSKEYUP:
 		case WM_KEYUP:

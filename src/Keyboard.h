@@ -15,8 +15,19 @@ public:
 		for (auto key : keys)
 			if (!IsDown(key))
 				return false;
-		Sleep(100);
 		return true;
+	}
+	void EnableAutoRepeat()
+	{
+		auto_repeat = true;
+	}
+	void DisableAutoRepeat()
+	{
+		auto_repeat = false;
+	}
+	bool IsAutoRepeatEnabled()
+	{
+		return auto_repeat;
 	}
 private:
 	bool IsDown(unsigned char keycode) const
@@ -37,5 +48,6 @@ private:
 		keystates.reset();
 	}
 private:
+	bool auto_repeat = false;
 	std::bitset<256> keystates;
 };

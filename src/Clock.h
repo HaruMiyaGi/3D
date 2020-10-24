@@ -5,8 +5,13 @@ class Clock
 {
 public:
 	Clock()
-		: time(std::chrono::steady_clock::now())
+		: time(std::chrono::steady_clock::now()), clock(time)
 	{}
+
+	float Time()
+	{
+		return std::chrono::duration<float>(std::chrono::steady_clock::now() - clock).count();
+	}
 
 	float Peek() const
 	{
@@ -23,4 +28,5 @@ public:
 
 private:
 	std::chrono::steady_clock::time_point time;
+	std::chrono::steady_clock::time_point clock;
 };
