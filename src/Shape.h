@@ -6,7 +6,13 @@
 class Shape : public Drawable<Shape>
 {
 public:
-	Shape(Graphics& gfx)
+	Shape(Graphics& gfx, std::vector<float> rng)
+		:
+		roll(0.0f), pitch(0.0f), yaw(0.0f),
+		theta(rng[0]), phi(rng[1]), chi(rng[2]),
+		droll(rng[3]), dpitch(rng[4]), dyaw(rng[5]),
+		dtheta(rng[6]), dphi(rng[7]), dchi(rng[8]),
+		r(rng[9])
 	{
 		if (!IsInit())
 		{
@@ -91,21 +97,23 @@ public:
 		AddBind(std::make_unique<TransformCbuf<Shape>>(gfx, *this));
 	}
 
-	void Update(float dt, bool boolean) override
+	void Update(float dt) override
 	{
-		if (boolean)
-		{
-			roll += std::sin(dt) * 0.05f;
-			pitch += std::sin(dt) * 0.05f;
-		}
+		roll += droll * dt;
+		pitch += dpitch * dt;
+		yaw += dyaw * dt;
+		theta += dtheta * dt;
+		phi += dphi * dt;
+		chi += dchi * dt;
 	}
 
 	DirectX::XMMATRIX GetTransformXM() const override
 	{
-		return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, 0.0f) *
-			DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f);
+		return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, pitch) *
+			DirectX::XMMatrixTranslation(r, 0.0f, 0.0f) *
+			DirectX::XMMatrixRotationRollPitchYaw(theta, phi, chi) *
+			DirectX::XMMatrixTranslation(0.0f, 0.0f, 15.0f);
 	}
-
 
 	void Gui()
 	{
@@ -121,8 +129,13 @@ public:
 	}
 
 private:
-	float roll = 0.0f;
-	float pitch = 0.0f;
+	// Position
+	float r;
+	float roll, pitch, yaw;
+	float theta, phi, chi;
+	// Speed
+	float droll, dpitch, dyaw;
+	float dtheta, dphi, dchi;
 };
 
 std::unique_ptr<VertexConstantBuffer<TransformCbuf<Shape>::Transforms>> TransformCbuf<Shape>::pVcbuf;

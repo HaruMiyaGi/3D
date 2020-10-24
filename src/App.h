@@ -2,16 +2,35 @@
 #include "Window.h"
 #include "Console.h"
 #include "Clock.h"
+#include "Random.h"
 
 #include "Shape.h"
-#include "Shape2.h"
+
+#define PI 3.1315f
 
 class App
 {
 public:
 	App()
 		: wnd(640, 480, "owo")
-	{}
+	{
+		for (auto i = 0; i < 80; i++)
+		{
+			std::vector<float> rng;
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
+			rng.push_back(random.Number<float>(0.0f, PI * 0.3f));
+			rng.push_back(random.Number<float>(0.0f, PI * 0.3f));
+			rng.push_back(random.Number<float>(0.0f, PI * 0.3f));
+			rng.push_back(random.Number<float>(6.0f, 20.0f));
+
+			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), rng));
+		}
+	}
 	int Go()
 	{
 		while (true)
@@ -34,9 +53,7 @@ private:
 private:
 	Clock clock;
 	Console console;
+	Random random;
 	Window wnd;
-
-	Shape shape = Shape(wnd.gfx());
-	Shape2 shape2 = Shape2(wnd.gfx());
-	Shape2 shape3 = Shape2(wnd.gfx());
+	std::vector<std::unique_ptr<class Shape>> cubes;
 };

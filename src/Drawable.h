@@ -14,7 +14,7 @@ public:
 	virtual ~Drawable() = default;
 public:
 	virtual DirectX::XMMATRIX GetTransformXM() const = 0;
-	virtual void Update(float dt, bool boolean) = 0;
+	virtual void Update(float dt) = 0;
 	void Draw(Graphics& gfx)
 	{
 		for (const auto& b : binds)
