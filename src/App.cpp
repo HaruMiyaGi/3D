@@ -23,7 +23,8 @@ void App::MainLoop()
 	Shape shape(wnd.gfx(), { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
 	shape.Draw(wnd.gfx());
 
-	Line(wnd.gfx());
+	Vec2 mouse_pos = VecToNdc(Vec2(wnd.mouse.GetX(), wnd.mouse.GetY()), wnd.GetWidth(), wnd.GetHeight());
+	Line(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
 
 	/// [TODO]: for (auto& gui : guis) gui->Render();
 	if (wnd.gfx().gui.IsEnabled())

@@ -157,6 +157,7 @@
     <ClCompile Include="src\imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="src\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Window.h" />
     <ClCompile Include="src\WinMain.cpp" />
   </ItemGroup>
@@ -183,6 +184,7 @@
     <ClInclude Include="src\InputLayout.h" />
     <ClInclude Include="src\Keyboard.h" />
     <ClInclude Include="src\Line.h" />
+    <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Mouse.h" />
     <ClInclude Include="src\PixelShader.h" />
     <ClInclude Include="src\Random.h" />

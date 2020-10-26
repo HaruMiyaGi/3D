@@ -2,11 +2,12 @@
 #include "Drawable.h"
 #include "BindableBase.h"
 
+#include "Math.h"
 
 class Line : public Drawable<Line>
 {
 public:
-	Line(Graphics& gfx)
+	Line(Graphics& gfx, Vec2 start, Vec2 end)
 	{
 		/// Data for Vertex Buffer
 		struct Vertex {
@@ -14,8 +15,8 @@ public:
 		};
 		const std::vector<Vertex> vertices =
 		{
-			{ 0.0f, 0.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f }
+			{ start.x, start.y, 1.0f },
+			{ end.x, end.y, 1.0f }
 		};
 
 		/// Vertex Buffer

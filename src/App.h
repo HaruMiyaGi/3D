@@ -7,6 +7,7 @@
 #include "Shape.h"
 #include "Line.h"
 
+#include "Math.h"
 #define PI 3.1315f
 
 class App
@@ -15,7 +16,7 @@ public:
 	App()
 		: wnd(640, 480, "owo")
 	{
-		for (auto i = 0; i < 80; i++)
+		for (auto i = 0; i < 60; i++)
 		{
 			std::vector<float> rng;
 			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
