@@ -20,6 +20,11 @@ void App::MainLoop()
 		cube->Draw(wnd.gfx());
 	}
 
+	Shape shape(wnd.gfx(), { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
+	shape.Draw(wnd.gfx());
+
+	Line(wnd.gfx());
+
 	/// [TODO]: for (auto& gui : guis) gui->Render();
 	if (wnd.gfx().gui.IsEnabled())
 	{

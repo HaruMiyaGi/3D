@@ -5,6 +5,7 @@
 #include "Random.h"
 
 #include "Shape.h"
+#include "Line.h"
 
 #define PI 3.1315f
 
@@ -30,6 +31,7 @@ public:
 
 			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), rng));
 		}
+
 	}
 	int Go()
 	{
