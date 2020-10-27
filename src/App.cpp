@@ -2,7 +2,7 @@
 
 void App::MainLoop()
 {
-	auto delta = clock.Mark() * 0.69f;
+	auto delta = clock.Mark() * 0.42f;
 
 	console.SetTitle(clock.Time());
 
