@@ -33,6 +33,10 @@ public:
 			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), rng));
 		}
 
+
+		for (auto i = 0; i < 1; i++)
+			lines.push_back(std::make_unique<Line>(wnd.gfx()));
+
 	}
 	int Go()
 	{
@@ -58,5 +62,6 @@ private:
 	Console console;
 	Random random;
 	Window wnd;
+	std::vector<std::unique_ptr<class Line>> lines;
 	std::vector<std::unique_ptr<class Shape>> cubes;
 };

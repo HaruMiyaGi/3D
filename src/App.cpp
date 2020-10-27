@@ -24,7 +24,8 @@ void App::MainLoop()
 	shape.Draw(wnd.gfx());
 
 	Vec2 mouse_pos = VecToNdc(Vec2(wnd.mouse.GetX(), wnd.mouse.GetY()), wnd.GetWidth(), wnd.GetHeight());
-	Line(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
+	for (auto& line : lines)
+		line->DrawLine(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
 
 	/// [TODO]: for (auto& gui : guis) gui->Render();
 	if (wnd.gfx().gui.IsEnabled())
