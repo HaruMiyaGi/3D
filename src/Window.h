@@ -55,6 +55,13 @@ public:
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
 		
 		pGfx = std::make_unique<Graphics>(hwnd, width, height);
+
+		RAWINPUTDEVICE rid;
+		rid.usUsagePage = 0x01; // mouse page
+		rid.usUsage = 0x02; // mouse usage
+		rid.dwFlags = 0;
+		rid.hwndTarget = nullptr;
+		RegisterRawInputDevices(&rid, 1, sizeof(rid));
 	}
 	~Window()
 	{
@@ -163,6 +170,25 @@ private:
 			mouse.OnRightRelease();
 		} break;
 		/// =====
+
+		/// Mouse Delta
+		case WM_INPUT:
+		{
+			UINT size = sizeof(UINT);
+
+			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) == -1)
+				break;
+
+			raw_buffer.resize(size);
+
+			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, raw_buffer.data(), &size, sizeof(RAWINPUTHEADER)) != size)
+				break;
+
+			auto& ri = reinterpret_cast<const RAWINPUT&>(*raw_buffer.data());
+			if (ri.header.dwType == RIM_TYPEMOUSE && (ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
+				mouse.OnRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);
+		} break;
+		/// =====
 		
 		case WM_KILLFOCUS:
 		{
@@ -178,6 +204,7 @@ private:
 	HWND hwnd;
 	int width;
 	int height;
+	std::vector<char> raw_buffer;
 public:
 	std::unique_ptr<Graphics> pGfx;
 	Keyboard keyboard;

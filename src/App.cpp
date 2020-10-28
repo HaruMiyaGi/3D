@@ -2,7 +2,7 @@
 
 void App::MainLoop()
 {
-	auto delta = clock.Mark() * 0.42f;
+	auto delta = clock.Mark() * 0.1f;
 
 	console.SetTitle(clock.Time());
 
@@ -13,6 +13,24 @@ void App::MainLoop()
 
 
 	wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
+
+
+	if (wnd.keyboard.IsPressed({ 'W' }))
+		wnd.gfx().camera.Move({ 0.0f, 0.0f, delta });
+	if (wnd.keyboard.IsPressed({ 'S' }))
+		wnd.gfx().camera.Move({ 0.0f, 0.0f, -delta });
+	if (wnd.keyboard.IsPressed({ 'D' }))
+		wnd.gfx().camera.Move({ delta, 0.0f, 0.0f });
+	if (wnd.keyboard.IsPressed({ 'A' }))
+		wnd.gfx().camera.Move({ -delta, 0.0f, 0.0f });
+	if (wnd.keyboard.IsPressed({ 'R' }))
+		wnd.gfx().camera.Move({ 0.0f, delta, 0.0f });
+	if (wnd.keyboard.IsPressed({ 'F' }))
+		wnd.gfx().camera.Move({ 0.0f, -delta, 0.0f });
+
+	while (const auto delta = wnd.mouse.ReadRawDelta())
+		wnd.gfx().camera.Rotate(delta->x, delta->y);
+
 
 	for (auto& cube : cubes)
 	{

@@ -1,4 +1,9 @@
 #pragma once
+#include <math.h>
+#include <algorithm>
+
+
+#define PI 3.1315
 
 struct Vec2
 {
@@ -40,3 +45,16 @@ struct Vec4
 };
 
 Vec2 VecToNdc(Vec2 vec, int width, int height);
+
+
+template<typename T>
+T wrap_angle(T theta)
+{
+	constexpr T twoPi = (T)2 * (T)PI;
+	const T mod = (T)fmod(theta, twoPi);
+	if (mod > (T)PI)
+		return mod - twoPi;
+	else if (mod < -(T)PI)
+		return mod + twoPi;
+	return mod;
+}

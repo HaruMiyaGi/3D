@@ -21,10 +21,11 @@ public:
 	{
 		auto model = parent.GetTransformXM();
 		auto projection = DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f);
+		auto camera = gfx.camera.GetMatrix();
 
 		Transforms tt =
 		{
-			DirectX::XMMatrixTranspose(model * projection)
+			DirectX::XMMatrixTranspose(model * camera * projection)
 		};
 
 		pVcbuf->Update(gfx, tt);

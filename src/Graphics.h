@@ -197,24 +197,10 @@ public:
 			DirectX::XMMATRIX transform;
 		};
 
-		float distance = camera.GetDistance() + 4.0f;
-		float x = camera.GetX(), y = camera.GetY(), z = camera.GetZ();
-		if (boolean)
-		{
-			distance = 4.0f;
-			x = 1.0f;
-			y = 2.0f;
-			z = 0.0f;
-		}
-
-
 		const ConstantBuffer cb = {
 			{
 				DirectX::XMMatrixTranspose(
-					DirectX::XMMatrixRotationX(x) *
-					DirectX::XMMatrixRotationY(y) *
-					DirectX::XMMatrixRotationZ(z) *
-					DirectX::XMMatrixTranslation(0.0f, 0.0f, distance) *
+					DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f) *
 					DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 100.0f)
 				)
 				/*1.0f, 0.0f, 0.0f, 0.0f,
@@ -312,6 +298,8 @@ public:
 	{
 		pContext->DrawIndexed(count, 0, 0);
 	}
+private:
+	DirectX::XMMATRIX projection;
 private:
 	ComPtr<ID3D11Device> pDevice = nullptr;
 	ComPtr<IDXGISwapChain> pSwapChain = nullptr;

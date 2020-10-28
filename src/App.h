@@ -8,7 +8,6 @@
 #include "Line.h"
 
 #include "Math.h"
-#define PI 3.1315f
 
 class App
 {

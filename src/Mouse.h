@@ -1,14 +1,26 @@
 #pragma once
+#include <optional>
+#include <queue>
 
-#include <iostream>
 class Mouse
 {
 	friend class Window;
+public:
+	struct RawDelta { int x, y; };
 public:
 	Mouse() = default;
 	Mouse(const Mouse&) = delete;
 	Mouse& operator = (const Mouse&) = delete;
 public:
+	std::optional<RawDelta> ReadRawDelta()
+	{
+		if (delta_buffer.empty())
+			return std::nullopt;
+
+		const RawDelta d = delta_buffer.front();
+		delta_buffer.pop();
+		return d;
+	}
 	int GetX() const
 	{
 		return x;
@@ -30,6 +42,12 @@ public:
 		return in_window;
 	}
 private:
+	void OnRawDelta(int deltaX, int deltaY)
+	{
+		delta_buffer.push({ deltaX, deltaY });
+		while (delta_buffer.size() > 16)
+			delta_buffer.pop();
+	}
 	void OnMouseMove(int new_x, int new_y)
 	{
 		x = new_x;
@@ -69,4 +87,5 @@ private:
 	bool in_window = true;
 	bool left_down = false;
 	bool right_down = false;
+	std::queue<RawDelta> delta_buffer;
 };
