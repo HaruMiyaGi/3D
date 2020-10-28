@@ -35,7 +35,8 @@ public:
 
 		for (auto i = 0; i < 1; i++)
 			lines.push_back(std::make_unique<Line>(wnd.gfx()));
-
+		
+		wnd.gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 100.0f));
 	}
 	int Go()
 	{

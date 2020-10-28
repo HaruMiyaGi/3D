@@ -298,6 +298,14 @@ public:
 	{
 		pContext->DrawIndexed(count, 0, 0);
 	}
+	void SetProjection(DirectX::FXMMATRIX proj)
+	{
+		projection = proj;
+	}
+	DirectX::XMMATRIX GetProjection() const
+	{
+		return projection;
+	}
 private:
 	DirectX::XMMATRIX projection;
 private:

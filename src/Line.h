@@ -27,6 +27,17 @@ public:
 
 			AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, indicies));
 
+
+			struct ConstantBuffer
+			{
+				DirectX::XMMATRIX transform;
+			};
+			const ConstantBuffer cb = {
+					DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 100.0f))
+			};
+			AddStaticBind(std::make_unique<VertexConstantBuffer<ConstantBuffer>>(gfx, cb));
+
+
 			struct ConstantBuffer2
 			{
 				struct
@@ -62,7 +73,7 @@ public:
 			AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST));
 		}
 
-		AddBind(std::make_unique<TransformCbuf<Line>>(gfx, *this));
+		//AddBind(std::make_unique<TransformCbuf<Line>>(gfx, *this));
 	}
 
 	void Update(float dt) override
