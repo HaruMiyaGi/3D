@@ -38,17 +38,28 @@ void App::MainLoop()
 		cube->Draw(wnd.gfx());
 	}
 
-	Shape shape(wnd.gfx(), { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
+	Shape shape(wnd.gfx(), "Nice", { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
 	shape.Draw(wnd.gfx());
 
 	Vec2 mouse_pos = VecToNdc(Vec2(wnd.mouse.GetX(), wnd.mouse.GetY()), wnd.GetWidth(), wnd.GetHeight());
 	for (auto& line : lines)
 		line->DrawLine(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
 
+
 	/// [TODO]: for (auto& gui : guis) gui->Render();
 	if (wnd.gfx().gui.IsEnabled())
 	{
-		wnd.gfx().camera.Gui();
+		if (ImGui::TreeNode("Objects"))
+		{
+			if (ImGui::TreeNode(shape.GetName()))
+			{
+				shape.Gui(wnd.gfx());
+				ImGui::TreePop();
+			}
+			ImGui::TreePop();
+		}
+
+		//wnd.gfx().camera.Gui();
 		Gui();
 	}
 

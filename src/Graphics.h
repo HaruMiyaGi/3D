@@ -8,6 +8,7 @@
 
 #include <DirectXMath.h>
 //#include <cmath>
+#include "Console.h"
 
 #include "Camera.h"
 
@@ -301,6 +302,7 @@ public:
 	void SetProjection(DirectX::FXMMATRIX proj)
 	{
 		projection = proj;
+		std::cout << "Projection Matrix: 0x" << &projection << std::endl;
 	}
 	DirectX::XMMATRIX GetProjection() const
 	{

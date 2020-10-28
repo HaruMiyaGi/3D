@@ -8,6 +8,7 @@
 #include "Line.h"
 
 #include "Math.h"
+#include <sstream>
 
 class App
 {
@@ -15,7 +16,7 @@ public:
 	App()
 		: wnd(640, 480, "owo")
 	{
-		for (auto i = 0; i < 60; i++)
+		for (auto i = 0; i < 2; i++)
 		{
 			std::vector<float> rng;
 			rng.push_back(random.Number<float>(0.0f, PI * 2.0f));
@@ -29,9 +30,10 @@ public:
 			rng.push_back(random.Number<float>(0.0f, PI * 0.3f));
 			rng.push_back(random.Number<float>(6.0f, 20.0f));
 
-			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), rng));
+			std::ostringstream oss;
+			oss << "Shape " << i;
+			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), oss.str(), rng));
 		}
-
 
 		for (auto i = 0; i < 1; i++)
 			lines.push_back(std::make_unique<Line>(wnd.gfx()));

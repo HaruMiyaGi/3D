@@ -20,13 +20,11 @@ public:
 	void Bind(Graphics& gfx) noexcept override
 	{
 		auto model = parent.GetTransformXM();
-		auto projection = gfx.GetProjection();
 		auto camera = gfx.camera.GetMatrix();
+		auto projection = gfx.GetProjection();
+		auto mcp = DirectX::XMMatrixTranspose(model * camera * projection);
 
-		Transforms transform =
-		{
-			DirectX::XMMatrixTranspose(model * camera * projection)
-		};
+		Transforms transform = { mcp };
 
 		pVcbuf->Update(gfx, transform);
 		pVcbuf->Bind(gfx);
