@@ -4,29 +4,36 @@
 
 #include "Math.h"
 
-class Line : public Drawable<Line>
+class Grid : public Drawable<Grid>
 {
 	/// Data for Vertex Buffer
 
 public:
-	Line(Graphics& gfx)
+	Grid(Graphics& gfx)
 	{
 
 		if (!IsInit())
 		{
 			struct Vertex { float x, y, z; };
-			const std::vector<Vertex> vertices =
+
+			std::vector<Vertex> build;
+
+			for (int i = 0; i < 10; i++)
 			{
-				{ -1.0f, 0.0f, 1.0f },
-				{ 1.0f, 0.0f, 1.0f }
-			};
+				for (int j = 0; j < 10; j++)
+				{
+					float num = 0.1f * (float)i;
+					float num_j = 0.1f * (float)j;
+
+					build.push_back({ -1.0f,num_j, num });
+					build.push_back({ 1.0f, num_j, num });
+					build.push_back({ num, num_j, 1.0f });
+					build.push_back({ num, num_j, -1.0f });
+				}
+			}
+			const std::vector<Vertex> vertices = build;
 
 			AddStaticBind(std::make_unique<VertexBuffer>(gfx, vertices));
-
-			const std::vector<unsigned short> indicies = { 0, 1 };
-
-			AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, indicies));
-
 
 			//struct ConstantBuffer
 			//{
@@ -73,7 +80,7 @@ public:
 			AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST));
 		}
 
-		AddBind(std::make_unique<TransformCbuf<Line>>(gfx, *this));
+		AddBind(std::make_unique<TransformCbuf<Grid>>(gfx, *this));
 	}
 
 	void Update(float dt) override {}
@@ -116,4 +123,4 @@ private:
 	float roll = 0.0f, pitch = 0.0f, yaw = 0.0f;
 };
 
-std::unique_ptr<VertexConstantBuffer<TransformCbuf<Line>::Transforms>> TransformCbuf<Line>::pVcbuf;
+std::unique_ptr<VertexConstantBuffer<TransformCbuf<Grid>::Transforms>> TransformCbuf<Grid>::pVcbuf;

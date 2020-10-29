@@ -171,6 +171,7 @@
     <ClInclude Include="src\ConstantBuffer.h" />
     <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\Graphics.h" />
+    <ClInclude Include="src\Grid.h" />
     <ClInclude Include="src\Gui.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />

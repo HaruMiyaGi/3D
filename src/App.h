@@ -6,6 +6,7 @@
 
 #include "Shape.h"
 #include "Line.h"
+#include "Grid.h"
 
 #include "Math.h"
 #include <sstream>
@@ -14,8 +15,9 @@ class App
 {
 public:
 	App()
-		: wnd(640, 480, "owo")
+		: wnd(640, 480, "owo"), shape(wnd.gfx(), "Nice", { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }), line(wnd.gfx())
 	{
+
 		for (auto i = 0; i < 2; i++)
 		{
 			std::vector<float> rng;
@@ -33,6 +35,7 @@ public:
 			std::ostringstream oss;
 			oss << "Shape " << i;
 			cubes.push_back(std::make_unique<Shape>(wnd.gfx(), oss.str(), rng));
+
 		}
 
 		for (auto i = 0; i < 1; i++)
@@ -66,4 +69,6 @@ private:
 	Window wnd;
 	std::vector<std::unique_ptr<class Line>> lines;
 	std::vector<std::unique_ptr<class Shape>> cubes;
+	Shape shape;
+	Line line;
 };

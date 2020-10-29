@@ -13,7 +13,7 @@ public:
 		theta(rng[0]), phi(rng[1]), chi(rng[2]),
 		droll(rng[3]), dpitch(rng[4]), dyaw(rng[5]),
 		dtheta(rng[6]), dphi(rng[7]), dchi(rng[8]),
-		r(rng[9])
+		x(rng[9])
 	{
 		if (!IsInit())
 		{
@@ -111,13 +111,23 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const override
 	{
 		return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, pitch) *
-			DirectX::XMMatrixTranslation(r, 0.0f, 0.0f) *
+			DirectX::XMMatrixTranslation(x, y, z) *
 			DirectX::XMMatrixRotationRollPitchYaw(theta, phi, chi) *
 			DirectX::XMMatrixTranslation(0.0f, 0.0f, 15.0f);
 	}
 
 	void Gui(Graphics& gfx)
 	{
+		if (ImGui::Begin("Shape", 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Position");
+			ImGui::SliderFloat("X", &x, -10.0f, 10.0f);
+			ImGui::SliderFloat("Y", &y, -10.0f, 10.0f);
+			ImGui::SliderFloat("Z", &z, -10.0f, 10.0f);
+		}
+		ImGui::End();
+
+		/*
 		auto model = GetTransformXM();
 		if (ImGui::Begin("Model Matrix", 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
@@ -157,7 +167,7 @@ public:
 			ImGui::Text("[%.1f] [%.1f] [%.1f] [%.1f]", mcp.r->m128_f32[12], mcp.r->m128_f32[13], mcp.r->m128_f32[14], mcp.r->m128_f32[15]);
 		}
 		ImGui::End();
-
+		*/
 	}
 
 	const char* GetName()
@@ -165,9 +175,9 @@ public:
 		return name.c_str();
 	}
 
-private:
+public:
 	// Position
-	float r;
+	float x, y = 0.0f, z = 0.0f;
 	float roll, pitch, yaw;
 	float theta, phi, chi;
 	// Speed
