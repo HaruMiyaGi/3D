@@ -299,10 +299,6 @@ public:
 	{
 		pContext->DrawIndexed(count, 0, 0);
 	}
-	void Draw(UINT count)
-	{
-		pContext->Draw(count, 0);
-	}
 	void SetProjection(DirectX::FXMMATRIX proj)
 	{
 		projection = proj;

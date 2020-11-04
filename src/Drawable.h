@@ -65,18 +65,6 @@ public:
 		gfx.DrawIndexed(count);
 	}
 
-	void Draw2(Graphics& gfx)
-	{
-		for (const auto& b : binds)
-			b->Bind(gfx);
-
-		for (const auto& b : static_binds)
-			b->Bind(gfx);
-
-		gfx.Draw(400);
-	}
-
-
 	bool IsInit() const
 	{
 		return !static_binds.empty();

@@ -12,8 +12,7 @@ void App::MainLoop()
 		wnd.gfx().gui.Toggle();
 
 
-	//wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
-	wnd.gfx().StartFrame(1.0f, 1.0f, 1.0f);
+	wnd.gfx().StartFrame(0.075f, 0.067f, 0.094f);
 
 
 	if (wnd.keyboard.IsPressed({ 'W' }))
@@ -29,26 +28,8 @@ void App::MainLoop()
 	if (wnd.keyboard.IsPressed({ 'F' }))
 		wnd.gfx().camera.Move({ 0.0f, -delta, 0.0f });
 
-	while (const auto delta = wnd.mouse.ReadRawDelta())
-		wnd.gfx().camera.Rotate(delta->x, delta->y);
-
-
-	Grid(wnd.gfx()).Draw2(wnd.gfx());
-
-
-
-	//int length = 10;
-	//for (float x = 0.0f; x < length; x += 1.0f)
-	//{
-	//	for (float y = 0.0f; y < length; y += 1.0f)
-	//	{
-	//		Line l(wnd.gfx());
-	//		l.LineUpdate(0.0f, y, 0.0f);
-	//		l.Draw(wnd.gfx());
-	//	}
-	//}
-
-	//Line(wnd.gfx(), Vec3(0.0f, 0.0f, 1.0f), Vec3(1.0f, 1.0f, 1.0f)).Draw(wnd.gfx());
+	//while (const auto delta = wnd.mouse.ReadRawDelta())
+	//	wnd.gfx().camera.Rotate(delta->x, delta->y);
 
 
 
@@ -62,9 +43,9 @@ void App::MainLoop()
 	if (wnd.gfx().gui.IsEnabled())
 		shape.Gui(wnd.gfx());
 
-	//Vec2 mouse_pos = VecToNdc(Vec2(wnd.mouse.GetX(), wnd.mouse.GetY()), wnd.GetWidth(), wnd.GetHeight());
-	//for (auto& line : lines)
-	//	line->DrawLine(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
+	Vec2 mouse_pos = VecToNdc(Vec2(wnd.mouse.GetX(), wnd.mouse.GetY()), wnd.GetWidth(), wnd.GetHeight());
+	for (auto& line : lines)
+		line->DrawLine(wnd.gfx(), Vec2(1.0f, 1.0f), mouse_pos);
 
 
 	// Ray Tracing
@@ -111,6 +92,13 @@ void App::MainLoop()
 	//	}
 	//}
 
+	int val = 0;
+
+	if (wnd.gfx().gui.IsEnabled())
+	{
+		bool show = true;
+		ImGui::ShowDemoWindow(&show);
+	}
 
 
 
